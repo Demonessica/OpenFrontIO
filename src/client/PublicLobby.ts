@@ -89,7 +89,8 @@ export class PublicLobby extends LitElement {
     // Format time to show minutes and seconds
     const minutes = Math.floor(timeRemaining / 60);
     const seconds = timeRemaining % 60;
-    const timeDisplay = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+    const secondsPadded = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    const timeDisplay = `${minutes}:${secondsPadded}`;
 
     const teamCount =
       lobby.gameConfig.gameMode === GameMode.Team
@@ -139,11 +140,14 @@ export class PublicLobby extends LitElement {
             </div>
           </div>
 
-          <div>
-            <div class="text-md font-medium text-blue-100">
-              ${lobby.numClients} / ${lobby.gameConfig.maxPlayers}
-            </div>
-            <div class="text-md font-medium text-blue-100">${timeDisplay}</div>
+          <div class="text-md font-medium text-blue-100">
+            ${lobby.numClients} / ${lobby.gameConfig.maxPlayers}
+            <span
+              class="inline-block w-10 text-sm ${this.isLobbyHighlighted
+                ? "text-green-600"
+                : "text-blue-600"} bg-white rounded-sm px-1 ml-2"
+              >${timeDisplay}</span
+            >
           </div>
         </div>
       </button>
